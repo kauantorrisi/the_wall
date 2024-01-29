@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDFoFsuOtRTVtb8fB7rlGLREx0n5nJY1yo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>54174451158</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.theWall.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>the-wall-17a5d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>the-wall-17a5d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:54174451158:ios:c53a8f0384e53d1d2c1077</string>
+</dict>
+</plist>
