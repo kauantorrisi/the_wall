@@ -4,22 +4,21 @@ import 'package:the_wall/components/button.dart';
 import 'package:the_wall/components/row_button.dart';
 import 'package:the_wall/components/text_field.dart';
 
-class LoginPage extends StatefulWidget {
-  final Function()? recoveryPasswordOnTap;
-  final Function()? registerOnTap;
-  const LoginPage({
-    super.key,
-    required this.recoveryPasswordOnTap,
-    required this.registerOnTap,
-  });
+class RegisterPage extends StatefulWidget {
+  final Function()? onTap;
+  const RegisterPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController textEmailController = TextEditingController();
+  final TextEditingController textConfirmEmailController =
+      TextEditingController();
   final TextEditingController textPasswordController = TextEditingController();
+  final TextEditingController textConfirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 50),
 
                 // welcome back message
-                const Text("Bem vindo(a) de volta, sentimos sua falta!"),
+                const Text("Vamos criar uma conta para você!"),
 
                 const SizedBox(height: 25),
 
@@ -56,10 +55,30 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 10),
 
+                // confirm email textfield
+                MyTextField(
+                  controller: textEmailController,
+                  hintText: 'Confirme o email',
+                  obscureText: false,
+                  textInputAction: TextInputAction.next,
+                ),
+
+                const SizedBox(height: 10),
+
                 // password textfield
                 MyTextField(
                   controller: textPasswordController,
                   hintText: 'Senha',
+                  obscureText: true,
+                  textInputAction: TextInputAction.next,
+                ),
+
+                const SizedBox(height: 10),
+
+                // confirm password textfield
+                MyTextField(
+                  controller: textPasswordController,
+                  hintText: 'Confirme a senha',
                   obscureText: true,
                   textInputAction: TextInputAction.done,
                 ),
@@ -68,22 +87,15 @@ class _LoginPageState extends State<LoginPage> {
 
                 // sign in button
                 MyButton(
-                  text: 'Login',
+                  text: 'Registrar',
                   onTap: () {},
-                ),
-
-                // forget password
-                RowButton(
-                  onTap: widget.recoveryPasswordOnTap,
-                  text: 'Esqueceu sua senha?',
-                  textOfButton: 'Recupere aqui!',
                 ),
 
                 // go to register page
                 RowButton(
-                  onTap: widget.registerOnTap,
-                  text: 'Não tem uma conta?',
-                  textOfButton: 'Registre-se aqui!',
+                  onTap: widget.onTap,
+                  text: 'Já tem uma conta?',
+                  textOfButton: 'Faça login aqui!',
                 ),
               ],
             ),
