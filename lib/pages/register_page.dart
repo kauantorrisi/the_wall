@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:the_wall/components/button.dart';
 import 'package:the_wall/components/row_button.dart';
 import 'package:the_wall/components/text_field.dart';
+import 'package:the_wall/helper/helper_functions.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -20,6 +22,34 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController textConfirmPasswordController =
       TextEditingController();
 
+  void register() {
+    if (textEmailController.text == textConfirmEmailController.text &&
+        textPasswordController.text == textConfirmPasswordController.text) {
+      try {
+        FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: textEmailController.text,
+          password: textPasswordController.text,
+        );
+      } on FirebaseAuthException catch (e) {
+        switch (e.code) {
+          case 'email-already-in-use':
+            displayMessageToUser(context, 'Email já cadastrado!');
+          case 'weak-password':
+            displayMessageToUser(context, 'A senha precisa ser mais forte!');
+          case 'invalid-email':
+            displayMessageToUser(context, 'Digite um email válido!');
+          default:
+            displayMessageToUser(context, e.code);
+        }
+      }
+    } else {
+      displayMessageToUser(
+        context,
+        'O email e senha precisam ser iguais nos campos de confirmação.',
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,77 +57,79 @@ class _RegisterPageState extends State<RegisterPage> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // logo
-                const Icon(
-                  Icons.lock,
-                  size: 100,
-                ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // logo
+                  const Icon(
+                    Icons.lock,
+                    size: 100,
+                  ),
 
-                const SizedBox(height: 50),
+                  const SizedBox(height: 50),
 
-                // welcome back message
-                const Text("Vamos criar uma conta para você!"),
+                  // welcome back message
+                  const Text("Vamos criar uma conta para você!"),
 
-                const SizedBox(height: 25),
+                  const SizedBox(height: 25),
 
-                // email textfield
-                MyTextField(
-                  controller: textEmailController,
-                  hintText: 'Email',
-                  obscureText: false,
-                  textInputAction: TextInputAction.next,
-                ),
+                  // email textfield
+                  MyTextField(
+                    controller: textEmailController,
+                    hintText: 'Email',
+                    obscureText: false,
+                    textInputAction: TextInputAction.next,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // confirm email textfield
-                MyTextField(
-                  controller: textEmailController,
-                  hintText: 'Confirme o email',
-                  obscureText: false,
-                  textInputAction: TextInputAction.next,
-                ),
+                  // confirm email textfield
+                  MyTextField(
+                    controller: textConfirmEmailController,
+                    hintText: 'Confirme o email',
+                    obscureText: false,
+                    textInputAction: TextInputAction.next,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // password textfield
-                MyTextField(
-                  controller: textPasswordController,
-                  hintText: 'Senha',
-                  obscureText: true,
-                  textInputAction: TextInputAction.next,
-                ),
+                  // password textfield
+                  MyTextField(
+                    controller: textPasswordController,
+                    hintText: 'Senha',
+                    obscureText: true,
+                    textInputAction: TextInputAction.next,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // confirm password textfield
-                MyTextField(
-                  controller: textPasswordController,
-                  hintText: 'Confirme a senha',
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
-                ),
+                  // confirm password textfield
+                  MyTextField(
+                    controller: textConfirmPasswordController,
+                    hintText: 'Confirme a senha',
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // sign in button
-                MyButton(
-                  text: 'Registrar',
-                  onTap: () {},
-                ),
+                  // sign in button
+                  MyButton(
+                    text: 'Registrar',
+                    onTap: register,
+                  ),
 
-                // go to register page
-                RowButton(
-                  onTap: widget.onTap,
-                  text: 'Já tem uma conta?',
-                  textOfButton: 'Faça login aqui!',
-                ),
-              ],
+                  // go to register page
+                  RowButton(
+                    onTap: widget.onTap,
+                    text: 'Já tem uma conta?',
+                    textOfButton: 'Faça login aqui!',
+                  ),
+                ],
+              ),
             ),
           ),
         ),

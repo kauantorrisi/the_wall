@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:the_wall/components/button.dart';
 import 'package:the_wall/components/row_button.dart';
 import 'package:the_wall/components/text_field.dart';
+import 'package:the_wall/helper/helper_functions.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? recoveryPasswordOnTap;
@@ -20,6 +25,31 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController textEmailController = TextEditingController();
   final TextEditingController textPasswordController = TextEditingController();
+
+  void login() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: textEmailController.text,
+        password: textPasswordController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'invalid-email':
+          displayMessageToUser(context, 'O email digitado é inválido!');
+        case 'user-not-found':
+          displayMessageToUser(context, 'Este usuário não existe!');
+        case 'wrong-password':
+          displayMessageToUser(context, 'A senha digitada está incorreta!');
+        case 'user-disable':
+          displayMessageToUser(context, 'Esse usuário foi desativado!');
+        case 'invalid-credential':
+          displayMessageToUser(
+              context, 'O email ou senha digitados estão incorretos!');
+        default:
+          displayMessageToUser(context, e.code);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                 // sign in button
                 MyButton(
                   text: 'Login',
-                  onTap: () {},
+                  onTap: login,
                 ),
 
                 // forget password
