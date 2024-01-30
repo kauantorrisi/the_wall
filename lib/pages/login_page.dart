@@ -27,12 +27,21 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController textPasswordController = TextEditingController();
 
   void login() async {
+    showDialog(
+      context: context,
+      builder: (ctx) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: textEmailController.text,
         password: textPasswordController.text,
       );
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       switch (e.code) {
         case 'invalid-email':
           displayMessageToUser(context, 'O email digitado é inválido!');

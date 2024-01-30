@@ -1,5 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:the_wall/components/button.dart';
 import 'package:the_wall/components/row_button.dart';
@@ -22,15 +25,24 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController textConfirmPasswordController =
       TextEditingController();
 
-  void register() {
+  void register() async {
+    showDialog(
+      context: context,
+      builder: (ctx) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
     if (textEmailController.text == textConfirmEmailController.text &&
         textPasswordController.text == textConfirmPasswordController.text) {
       try {
-        FirebaseAuth.instance.createUserWithEmailAndPassword(
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: textEmailController.text,
           password: textPasswordController.text,
         );
+        Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
+        Navigator.pop(context);
         switch (e.code) {
           case 'email-already-in-use':
             displayMessageToUser(context, 'Email já cadastrado!');
@@ -43,6 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       }
     } else {
+      Navigator.pop(context);
       displayMessageToUser(
         context,
         'O email e senha precisam ser iguais nos campos de confirmação.',
