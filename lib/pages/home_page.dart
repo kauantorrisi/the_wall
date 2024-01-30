@@ -18,6 +18,8 @@ class _HomePageState extends State<HomePage> {
 
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
+  final ScrollController _controller = ScrollController();
+
   void logout() {
     FirebaseAuth.instance.signOut();
   }
@@ -31,6 +33,20 @@ class _HomePageState extends State<HomePage> {
       });
     }
     textController.clear();
+    scrollListViewToEnd();
+    closeKeyboard();
+  }
+
+  void scrollListViewToEnd() {
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: const Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  void closeKeyboard() {
+    FocusScope.of(context).unfocus();
   }
 
   @override
@@ -63,6 +79,7 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
+                      controller: _controller,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         final post = snapshot.data!.docs[index];

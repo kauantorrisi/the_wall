@@ -32,16 +32,21 @@ class WallPost extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                user,
-                style: TextStyle(color: Colors.grey[500]),
-              ),
-              const SizedBox(height: 10),
-              Text(message),
-            ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user,
+                  style: TextStyle(color: Colors.grey[500]),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  message,
+                  overflow: TextOverflow.clip,
+                ),
+              ],
+            ),
           ),
         ],
       ),
