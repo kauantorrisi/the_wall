@@ -54,6 +54,8 @@ class _LoginPageState extends State<LoginPage> {
         case 'invalid-credential':
           displayMessageToUser(
               context, 'O email ou senha digitados estão incorretos!');
+        case 'channel-error':
+          displayMessageToUser(context, 'Digite seu email e senha!');
         default:
           displayMessageToUser(context, e.code);
       }
@@ -67,64 +69,66 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // logo
-                const Icon(
-                  Icons.lock,
-                  size: 100,
-                ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // logo
+                  const Icon(
+                    Icons.lock,
+                    size: 100,
+                  ),
 
-                const SizedBox(height: 50),
+                  const SizedBox(height: 50),
 
-                // welcome back message
-                const Text("Bem vindo(a) de volta, sentimos sua falta!"),
+                  // welcome back message
+                  const Text("Bem vindo(a) de volta, sentimos sua falta!"),
 
-                const SizedBox(height: 25),
+                  const SizedBox(height: 25),
 
-                // email textfield
-                MyTextField(
-                  controller: textEmailController,
-                  hintText: 'Email',
-                  obscureText: false,
-                  textInputAction: TextInputAction.next,
-                ),
+                  // email textfield
+                  MyTextField(
+                    controller: textEmailController,
+                    hintText: 'Email',
+                    obscureText: false,
+                    textInputAction: TextInputAction.next,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // password textfield
-                MyTextField(
-                  controller: textPasswordController,
-                  hintText: 'Senha',
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
-                ),
+                  // password textfield
+                  MyTextField(
+                    controller: textPasswordController,
+                    hintText: 'Senha',
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // sign in button
-                MyButton(
-                  text: 'Login',
-                  onTap: login,
-                ),
+                  // sign in button
+                  MyButton(
+                    text: 'Login',
+                    onTap: login,
+                  ),
 
-                // forget password
-                RowButton(
-                  onTap: widget.recoveryPasswordOnTap,
-                  text: 'Esqueceu sua senha?',
-                  textOfButton: 'Recupere aqui!',
-                ),
+                  // forget password
+                  RowButton(
+                    onTap: widget.recoveryPasswordOnTap,
+                    text: 'Esqueceu sua senha?',
+                    textOfButton: 'Recupere aqui!',
+                  ),
 
-                // go to register page
-                RowButton(
-                  onTap: widget.registerOnTap,
-                  text: 'Não tem uma conta?',
-                  textOfButton: 'Registre-se aqui!',
-                ),
-              ],
+                  // go to register page
+                  RowButton(
+                    onTap: widget.registerOnTap,
+                    text: 'Não tem uma conta?',
+                    textOfButton: 'Registre-se aqui!',
+                  ),
+                ],
+              ),
             ),
           ),
         ),

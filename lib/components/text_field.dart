@@ -1,17 +1,19 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final bool obscureText;
-  final TextInputAction textInputAction;
+  bool obscureText;
+  TextInputAction textInputAction;
 
-  const MyTextField({
+  MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
-    required this.obscureText,
-    required this.textInputAction,
+    this.obscureText = false,
+    this.textInputAction = TextInputAction.done,
   });
 
   @override

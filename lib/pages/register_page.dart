@@ -50,6 +50,8 @@ class _RegisterPageState extends State<RegisterPage> {
             displayMessageToUser(context, 'A senha precisa ser mais forte!');
           case 'invalid-email':
             displayMessageToUser(context, 'Digite um email válido!');
+          case 'channel-error':
+            displayMessageToUser(context, 'Digite seu email e senha!');
           default:
             displayMessageToUser(context, e.code);
         }
