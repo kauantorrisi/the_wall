@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,7 +28,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,16 +49,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCMFOjPgjLisPN5IGMs5T0jREBqr8l4mZE',
-    appId: '1:54174451158:web:c27451f60c57bc042c1077',
-    messagingSenderId: '54174451158',
-    projectId: 'the-wall-17a5d',
-    authDomain: 'the-wall-17a5d.firebaseapp.com',
-    storageBucket: 'the-wall-17a5d.appspot.com',
-    measurementId: 'G-SEDFJLMH2W',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDnGBspGJv22FbVMk13qKu4HcI7rf0rEHY',
     appId: '1:54174451158:android:14e22f8b3eb236e52c1077',
@@ -68,14 +64,5 @@ class DefaultFirebaseOptions {
     projectId: 'the-wall-17a5d',
     storageBucket: 'the-wall-17a5d.appspot.com',
     iosBundleId: 'com.example.theWall',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDFoFsuOtRTVtb8fB7rlGLREx0n5nJY1yo',
-    appId: '1:54174451158:ios:c53a8f0384e53d1d2c1077',
-    messagingSenderId: '54174451158',
-    projectId: 'the-wall-17a5d',
-    storageBucket: 'the-wall-17a5d.appspot.com',
-    iosBundleId: 'com.example.theWall.RunnerTests',
   );
 }
