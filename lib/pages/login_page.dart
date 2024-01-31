@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:the_wall/components/button.dart';
 import 'package:the_wall/components/row_button.dart';
 import 'package:the_wall/components/text_field.dart';
-import 'package:the_wall/helper/helper_functions.dart';
+import 'package:the_wall/utils/helper_functions.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? recoveryPasswordOnTap;

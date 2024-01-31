@@ -1,13 +1,55 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class WallPost extends StatelessWidget {
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:the_wall/components/like_button.dart';
+
+class WallPost extends StatefulWidget {
   final String message;
   final String user;
+  final String postId;
+  final List<String> likes;
   const WallPost({
     super.key,
     required this.message,
     required this.user,
+    required this.postId,
+    required this.likes,
   });
+
+  @override
+  State<WallPost> createState() => _WallPostState();
+}
+
+class _WallPostState extends State<WallPost> {
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  bool isLiked = false;
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+    });
+
+    DocumentReference postRef =
+        FirebaseFirestore.instance.collection("User Posts").doc(widget.postId);
+
+    if (isLiked) {
+      postRef.update({
+        'Likes': FieldValue.arrayUnion([currentUser!.email])
+      });
+    } else {
+      postRef.update({
+        'Likes': FieldValue.arrayRemove([currentUser!.email])
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    isLiked = widget.likes.contains(currentUser!.email);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +62,20 @@ class WallPost extends StatelessWidget {
       padding: const EdgeInsets.all(25),
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey[400],
-            ),
-            padding: const EdgeInsets.all(10),
-            child: const Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
+          Column(
+            children: [
+              LikeButton(
+                isLiked: isLiked,
+                onTap: toggleLike,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                widget.likes.length.toString(),
+                style: const TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
           const SizedBox(width: 20),
           Flexible(
@@ -37,12 +83,12 @@ class WallPost extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user,
+                  widget.user,
                   style: TextStyle(color: Colors.grey[500]),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  message,
+                  widget.message,
                   overflow: TextOverflow.clip,
                 ),
               ],

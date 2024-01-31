@@ -30,14 +30,15 @@ class _HomePageState extends State<HomePage> {
         "UserEmail": currentUser!.email,
         "Message": textController.text,
         "TimeStamp": Timestamp.now(),
+        "Likes": [],
       });
     }
     textController.clear();
-    scrollListViewToEnd();
+    scrollListViewToTheEndWhenUserPostMessage();
     closeKeyboard();
   }
 
-  void scrollListViewToEnd() {
+  void scrollListViewToTheEndWhenUserPostMessage() {
     _controller.animateTo(
       _controller.position.maxScrollExtent,
       duration: const Duration(seconds: 1),
@@ -86,6 +87,8 @@ class _HomePageState extends State<HomePage> {
                         return WallPost(
                           message: post["Message"],
                           user: post["UserEmail"],
+                          postId: post.id,
+                          likes: List<String>.from(post["Likes"] ?? []),
                         );
                       },
                     );
