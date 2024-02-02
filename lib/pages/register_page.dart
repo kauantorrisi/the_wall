@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,11 +37,21 @@ class _RegisterPageState extends State<RegisterPage> {
     if (textEmailController.text == textConfirmEmailController.text &&
         textPasswordController.text == textConfirmPasswordController.text) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: textEmailController.text,
           password: textPasswordController.text,
         );
-        Navigator.pop(context);
+
+        FirebaseFirestore.instance
+            .collection('Users')
+            .doc(userCredential.user!.email)
+            .set({
+          'username': textEmailController.text.split('@')[0],
+          'bio': 'Bio vazia..'
+        });
+
+        if (context.mounted) Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
         Navigator.pop(context);
         switch (e.code) {
